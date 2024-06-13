@@ -27,7 +27,7 @@ resource "aws_iam_role_policy_attachment" "lambda_basic_execution" {
 }
 
 resource "aws_lambda_function" "hello_world" {
-  s3_bucket        = aws_s3_bucket.lambda_bucket.bucket
+  s3_bucket        = "dotnet-lambda-deployment-bucket"
   s3_key           = var.s3_key
   function_name    = "DotNetLambdaHelloWorld"
   role             = aws_iam_role.lambda_role.arn
