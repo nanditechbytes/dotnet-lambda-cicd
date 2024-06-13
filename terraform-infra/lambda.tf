@@ -2,6 +2,14 @@ provider "aws" {
   region = "us-east-2"
 }
 
+terraform {
+  backend "s3" {
+    bucket = "cicd-demo-terraform-state-bucket"
+    key    = "terraform.tfstate"
+    region = "us-west-2"  # Update with your desired AWS region
+  }
+}
+
 resource "aws_iam_role" "lambda_role" {
   name = "lambda-role"
   assume_role_policy = <<EOF
