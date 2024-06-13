@@ -43,4 +43,4 @@ jobs:
       - name: Apply Terraform
         run: |
           cd ${{ env.WORK_DIR }}
-          terraform apply -var "s3_key=${{ env.APP_NAME }}-${{ env.APP_TAG }}" -auto-approve
+          terraform apply -var "s3_key=${{ env.APP_NAME }}-${{ env.APP_TAG }}.zip" -auto-approve
