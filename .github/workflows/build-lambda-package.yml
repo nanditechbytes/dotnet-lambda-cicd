@@ -11,7 +11,7 @@ on:
 env:
   APP_TAG: ${{ github.sha }}
   APP_NAME: DotNetLambdaHelloWorld
-  WORK_DIR: app-src-code/DotNetLambdaHelloWorld/src/DotNetLambdaHelloWorld
+  WORK_DIR: app-src-code/DotNetLambdaHelloWorld/src
   S3_BUCKET_NAME: dotnet-lambda-deployment-bucket
 
 jobs:
@@ -32,7 +32,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd ${{ env.WORK_DIR }}
+          cd ${{ env.WORK_DIR }}/DotNetLambdaHelloWorld
           dotnet restore
 
       - name: Install AWS Lambda Tools
