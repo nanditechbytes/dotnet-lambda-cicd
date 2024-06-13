@@ -9,6 +9,7 @@ on:
 
 
 env:
+  AWS_REGION: us-west-2
   APP_TAG: ${{ github.sha }}
   APP_NAME: DotNetLambdaHelloWorld
   WORK_DIR: app-src-code/DotNetLambdaHelloWorld/src
@@ -47,12 +48,14 @@ jobs:
           dotnet lambda package --project-location  ${{ env.APP_NAME }} --output-package  ${{ env.APP_NAME }}-${{ env.APP_TAG }}.zip
 
 
-      - name: Upload Artifact to S3
-        uses: ItsKarma/aws-cli@v1.70.0
+      - name: Setup AWS CLI
+        uses: aws-actions/configure-aws-credentials@v4.0.2
         with:
-          args: s3 cp ${{ env.WORK_DIR }}/${{ env.APP_NAME }}-${{ env.APP_TAG }}.zip s3://${{ env.S3_BUCKET_NAME }}/
-        env:
-           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-           AWS_DEFAULT_REGION: "us-west-2"
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            aws-region: ${{ env.AWS_REGION }}
+
+      - name: Upload Artifact to S3 
+        run: |
+           aws s3 cp ${{ env.WORK_DIR }}/${{ env.APP_NAME }}-${{ env.APP_TAG }}.zip s3://${{ env.S3_BUCKET_NAME }}/
 
