@@ -12,7 +12,7 @@ env:
   AWS_REGION: us-west-2
   APP_TAG: ${{ github.sha }}
   APP_NAME: DotNetLambdaHelloWorld
-  WORK_DIR: dotnet-lambda-cicd/terraform-infra
+  WORK_DIR: terraform-infra
 
 jobs:
   deploy:

@@ -11,7 +11,7 @@ on:
 env:
   APP_TAG: ${{ github.sha }}
   APP_NAME: DotNetLambdaHelloWorld
-  WORK_DIR: dotnet-lambda-cicd/app-src-code/DotNetLambdaHelloWorld/src/DotNetLambdaHelloWorld
+  WORK_DIR: app-src-code/DotNetLambdaHelloWorld/src/DotNetLambdaHelloWorld
   S3_BUCKET_NAME: dotnet-lambda-deployment-bucket
 
 jobs:
