@@ -1,0 +1,58 @@
+name:  Build & Package Lambda
+
+on:
+  push:
+    paths:
+      - "app-src-code/**"
+    branches:
+      - main
+
+
+env:
+  APP_TAG: ${{ github.sha }}
+  APP_NAME: DotNetLambdaHelloWorld
+  WORK_DIR: dotnet-lambda-cicd/app-src-code/DotNetLambdaHelloWorld/src/DotNetLambdaHelloWorld
+  S3_BUCKET_NAME: dotnet-lambda-deployment-bucket
+
+jobs:
+  build-packaging:
+    name: Build and Package Application
+    runs-on: ubuntu-latest
+    environment: DEV
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Install dependencies
+        run: |
+          cd ${{ env.WORK_DIR }}
+          dotnet restore
+
+      - name: Install AWS Lambda Tools
+        run: |
+          cd ${{ env.WORK_DIR }}
+          dotnet tool install -g Amazon.Lambda.Tools
+
+      - name: Package Lambda function
+        id: packaging
+        run: |
+          cd ${{ env.WORK_DIR }}
+          dotnet lambda package --project-location  ${{ env.APP_NAME }} --output-package  ${{ env.APP_NAME }}-${{ env.APP_TAG }}.zip
+
+
+      - name: Upload Artifact to S3
+        uses: ItsKarma/aws-cli@v1.70.0
+        with:
+          args: s3 cp ${{ env.WORK_DIR }}/${{ env.APP_NAME }}-${{ env.APP_TAG }}.zip s3://${{ env.S3_BUCKET_NAME }}/
+        env:
+           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+           AWS_DEFAULT_REGION: "us-west-2"
+
