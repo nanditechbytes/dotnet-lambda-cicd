@@ -7,20 +7,28 @@ using System.Threading.Tasks;
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(DefaultLambdaJsonSerializer))]
 
-namespace DotNetLambdaHelloWorld;
-
-public class Function
+namespace DotNetLambdaHelloWorld
 {
-    public static async Task Main(string[] args)
+    public class Function
     {
-        Func<string, ILambdaContext, string> func = FunctionHandler;
-        using var handlerWrapper = HandlerWrapper.GetHandlerWrapper(func, new DefaultLambdaJsonSerializer());
-        using var bootstrap = new LambdaBootstrap(handlerWrapper);
-        await bootstrap.RunAsync();
+        public static async Task Main(string[] args)
+        {
+            Func<Input, ILambdaContext, string> func = FunctionHandler;
+            using var handlerWrapper = HandlerWrapper.GetHandlerWrapper(func, new DefaultLambdaJsonSerializer());
+            using var bootstrap = new LambdaBootstrap(handlerWrapper);
+            await bootstrap.RunAsync();
+        }
+
+        public static string FunctionHandler(Input input, ILambdaContext context)
+        {
+            // Assuming input is an object with a 'name' property
+            string name = input?.name ?? "World";
+            return $"Hello, {name}!";
+        }
     }
 
-    public static string FunctionHandler(string input, ILambdaContext context)
+    public class Input
     {
-        return "Hello, World!";
+        public string name { get; set; }
     }
 }
