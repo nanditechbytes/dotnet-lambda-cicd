@@ -8,7 +8,6 @@ This repository provides a complete CI/CD pipeline setup for deploying .NET Lamb
 - **Automated Build and Test**: Leverage GitHub Actions to automatically build and test your .NET Lambda functions on each push or pull request.
 - **Infrastructure as Code**: Utilize Terraform to manage AWS resources, ensuring consistent and reproducible deployments.
 - **Continuous Deployment**: Seamlessly deploy your Lambda functions to AWS with every code change, maintaining high velocity and reliability.
-- **Environment Management**: Handle multiple environments (e.g., development, staging, production) with ease using Terraform workspaces and GitHub Actions secrets.
 
 ## Components
 
@@ -24,33 +23,16 @@ This repository provides a complete CI/CD pipeline setup for deploying .NET Lamb
     git clone https://github.com/your-username/dotnet-lambda-cicd.git
     cd dotnet-lambda-cicd
     ```
-
-2. **Setup Terraform**:
-    - Install [Terraform](https://www.terraform.io/downloads.html).
-    - Configure AWS credentials.
-
-3. **Configure GitHub Secrets**:
+    
+2. **Configure GitHub Secrets**:
     - Add necessary secrets (e.g., AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, TF_STATE_BUCKET) to your GitHub repository.
 
-4. **Run Terraform Init and Apply**:
-    ```bash
-    terraform init
-    terraform apply
-    ```
 
-5. **Push Your Code**:
+3. **Push Your Code**:
     - Push your changes to GitHub and watch the CI/CD pipeline in action.
-
-## Prerequisites
-
-- [Git](https://git-scm.com/)
-- [Terraform](https://www.terraform.io/)
-- [.NET SDK](https://dotnet.microsoft.com/download)
-- AWS Account with appropriate permissions
 
 ## Acknowledgments
 
 - [GitHub Actions](https://github.com/features/actions)
 - [Terraform](https://www.terraform.io/)
 - [AWS Lambda](https://aws.amazon.com/lambda/)
-
